@@ -6,9 +6,11 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "lint": "eslint . ; stylelint --ignore-path .gitignore '**/*.{css,scss,sass}'",
-    "preview": "vite preview",
-    "lint:fix": "npm run lint -- --fix ; stylelint --ignore-path .gitignore '**/*.{css,scss,sass}' --fix"
+    "lint": "npm run lint-code ; npm run lint-styles",
+    "lint:fix": "npm run lint-code -- --fix ; npm run lint-styles -- --fix",
+    "lint-code": "eslint .",
+    "lint-styles": "stylelint --ignore-path .gitignore '**/*.{css,scss,sass}'",
+    "preview": "vite preview"
   },
   "dependencies": {
     "react": "^18.3.1",
