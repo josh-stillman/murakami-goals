@@ -19,6 +19,7 @@ export const GoalsTable = ({ goalDTOs }: Props) => {
       <th className={dayOfWeek === 5 ? styles.todayHeader : ''}>Fri</th>
       <th className={dayOfWeek === 6 ? styles.todayHeader : ''}>Sat</th>
       <th className={dayOfWeek === 0 ? styles.todayHeader : ''}>Sun</th>
+      <th className={dayOfWeek === 0 ? styles.todayHeader : ''}>Totals</th>
       <tbody>
         {goalDTOs.map((goalDTO: GoalDTO, i: number) => (
           <WeekGoal

@@ -32,6 +32,8 @@ export const WeekGoal = ({ goalDTO, lastRow }: Props) => {
           disabled={i > todayDate}
         />
       ))}
+
+      <td>{goalDTO.entries.filter(e => e.completed).length}</td>
     </tr>
   );
 };
