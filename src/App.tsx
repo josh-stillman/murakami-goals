@@ -1,34 +1,44 @@
-import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import appLogo from '/favicon.svg';
 import PWABadge from './PWABadge.tsx';
 import './App.css';
+import { useLiveQuery } from 'dexie-react-hooks';
+import { db, getGoalDTOs } from './db/db.ts';
 
 function App() {
-  const [count, setCount] = useState(0);
+  const entries = useLiveQuery(() => db.entries.toArray());
+  const goals = useLiveQuery(() => db.goals.toArray());
+  const goalDTOs = useLiveQuery(() => getGoalDTOs());
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-          <img src={appLogo} className="logo" alt="murakami-goals logo" />
-        </a>
-        <a href="https://react.dev" target="_blank" rel="noreferrer">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
       <h1>murakami-goals</h1>
-      <div className="card">
-        <button onClick={() => setCount(count => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+
+      {goalDTOs?.map((goalDTO, i) => (
+        <ul key={i}>
+          <li key={goalDTO.id}>
+            {goalDTO.id}, {goalDTO.name}
+          </li>
+          <ul>
+            {goalDTO.entries.map(entry => (
+              <li key={entry.id}>
+                {entry.goalId}, {entry.date.toISOString()}{' '}
+                {entry.completed + ''}
+              </li>
+            ))}
+          </ul>
+        </ul>
+      ))}
+
+      {goals?.map(goal => (
+        <li key={goal.id}>
+          {goal.id}, {goal.name}
+        </li>
+      ))}
+
+      {entries?.map(entry => (
+        <li key={entry.id}>
+          {entry.goalId}, {entry.date.toISOString()} {entry.completed + ''}
+        </li>
+      ))}
       <PWABadge />
     </>
   );
