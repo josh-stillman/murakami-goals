@@ -1,4 +1,5 @@
 import Dexie, { type EntityTable } from 'dexie';
+import { createWeekEntries, getMondayOfCurrentWeek } from './utils';
 
 interface Goal {
   id: number;
@@ -12,8 +13,10 @@ interface Entry {
   completed: boolean;
 }
 
+export type WeekEntries = [Entry, Entry, Entry, Entry, Entry, Entry, Entry];
+
 export type GoalDTO = Goal & {
-  entries: Entry[];
+  entries: WeekEntries;
 };
 
 const db = new Dexie('GoalsDatabase') as Dexie & {
@@ -42,14 +45,21 @@ export const getGoalDTOs = async (): Promise<GoalDTO[]> => {
       const entries = await db.entries
         .where('goalId')
         .equals(goal.id)
+        .and(
+          entry => entry.date.getDate() >= getMondayOfCurrentWeek().getDate()
+        )
+        // .sortBy('date')
+        .limit(7)
         .toArray();
 
       return {
         ...goal,
-        entries,
+        entries: entries as WeekEntries,
       };
     })
   );
+
+  console.log({ dto });
 
   return dto;
 };
@@ -64,49 +74,40 @@ const seed = async () => {
       name: 'running',
     });
 
-    await db.entries.bulkAdd([
-      {
-        goalId,
-        completed: false,
-        date: new Date(),
-      },
-      {
-        goalId,
-        completed: false,
-        date: new Date(),
-      },
-      {
-        goalId,
-        completed: false,
-        date: new Date(),
-      },
-      {
-        goalId,
-        completed: false,
-        date: new Date(),
-      },
-      {
-        goalId,
-        completed: false,
-        date: new Date(),
-      },
-      {
-        goalId,
-        completed: false,
-        date: new Date(),
-      },
-      {
-        goalId,
-        completed: false,
-        date: new Date(),
-      },
-    ]);
+    const goalId2 = await db.goals.add({
+      name: 'music',
+    });
+
     return;
   }
   console.log('DB Already Seeded');
 };
 
-seed();
+const createMissingWeekEntriesForGoal = async (goal: Goal, monday: Date) => {
+  const weekEntries = await db.entries
+    .where('goalId')
+    .equals(goal.id)
+    .and(entry => entry.date.getDate() >= getMondayOfCurrentWeek().getDate())
+    .toArray();
+
+  if (weekEntries.length < 7) {
+    const entries = createWeekEntries(getMondayOfCurrentWeek(), goal.id);
+
+    await db.entries.bulkAdd(entries);
+  }
+};
+
+const createAllMissingEntries = async () => {
+  const goals = await db.goals.toArray();
+
+  goals.forEach(goal =>
+    createMissingWeekEntriesForGoal(goal, getMondayOfCurrentWeek())
+  );
+};
+
+await seed();
+
+await createAllMissingEntries();
 
 export type { Goal, Entry };
 export { db };
