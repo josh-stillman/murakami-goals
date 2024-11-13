@@ -1,12 +1,12 @@
 import Dexie, { type EntityTable } from 'dexie';
 import { createWeekEntries, getMondayOfCurrentWeek } from './utils';
 
-interface Goal {
+export interface Goal {
   id: number;
   name: string;
 }
 
-interface Entry {
+export interface Entry {
   id: number;
   goalId: number;
   date: Date;
@@ -83,7 +83,7 @@ const seed = async () => {
   console.log('DB Already Seeded');
 };
 
-const createMissingWeekEntriesForGoal = async (goal: Goal, monday: Date) => {
+const createMissingWeekEntries = async (goal: Goal, monday: Date) => {
   const weekEntries = await db.entries
     .where('goalId')
     .equals(goal.id)
@@ -101,7 +101,7 @@ const createAllMissingEntries = async () => {
   const goals = await db.goals.toArray();
 
   goals.forEach(goal =>
-    createMissingWeekEntriesForGoal(goal, getMondayOfCurrentWeek())
+    createMissingWeekEntries(goal, getMondayOfCurrentWeek())
   );
 };
 
@@ -109,5 +109,4 @@ await seed();
 
 await createAllMissingEntries();
 
-export type { Goal, Entry };
 export { db };

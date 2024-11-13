@@ -2,12 +2,14 @@ import { db, Entry } from '../../db/db';
 
 interface Props {
   entry: Entry;
+  className: string;
+  disabled?: boolean;
 }
 
-export const EntryCell = ({ entry }: Props) => {
+export const EntryCell = ({ entry, className, disabled }: Props) => {
   const toggleCompleted = async () => {
     try {
-      const id = await db.entries.update(entry.id, {
+      await db.entries.update(entry.id, {
         completed: !entry.completed,
       });
 
@@ -17,11 +19,12 @@ export const EntryCell = ({ entry }: Props) => {
     }
   };
   return (
-    <td>
+    <td className={className}>
       <input
         type="checkbox"
         checked={entry.completed}
         onChange={toggleCompleted}
+        disabled={!!disabled}
       />
     </td>
   );
