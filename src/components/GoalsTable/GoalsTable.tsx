@@ -1,25 +1,81 @@
 import { GoalDTO } from '../../db/db';
+import { addDaysToDate, getToday } from '../../db/utils';
 import { WeekGoal } from '../WeekGoal/WeekGoal';
 import styles from './GoalsTable.module.css';
 
 interface Props {
   goalDTOs: GoalDTO[];
+  currentMonday: Date;
 }
 
-export const GoalsTable = ({ goalDTOs }: Props) => {
-  const dayOfWeek = new Date().getDay();
+export const GoalsTable = ({ goalDTOs, currentMonday }: Props) => {
+  const today = getToday();
 
   return (
     <table>
       <th></th>
-      <th className={dayOfWeek === 1 ? styles.todayHeader : ''}>Mon</th>
-      <th className={dayOfWeek === 2 ? styles.todayHeader : ''}>Tue</th>
-      <th className={dayOfWeek === 3 ? styles.todayHeader : ''}>Wed</th>
-      <th className={dayOfWeek === 4 ? styles.todayHeader : ''}>Thurs</th>
-      <th className={dayOfWeek === 5 ? styles.todayHeader : ''}>Fri</th>
-      <th className={dayOfWeek === 6 ? styles.todayHeader : ''}>Sat</th>
-      <th className={dayOfWeek === 0 ? styles.todayHeader : ''}>Sun</th>
-      <th className={dayOfWeek === 0 ? styles.todayHeader : ''}>Totals</th>
+      <th
+        className={
+          today.getTime() === currentMonday.getTime() ? styles.todayHeader : ''
+        }
+      >
+        Mon
+      </th>
+      <th
+        className={
+          today.getTime() === addDaysToDate(currentMonday, 1).getTime()
+            ? styles.todayHeader
+            : ''
+        }
+      >
+        Tue
+      </th>
+      <th
+        className={
+          today.getTime() === addDaysToDate(currentMonday, 2).getTime()
+            ? styles.todayHeader
+            : ''
+        }
+      >
+        Wed
+      </th>
+      <th
+        className={
+          today.getTime() === addDaysToDate(currentMonday, 3).getTime()
+            ? styles.todayHeader
+            : ''
+        }
+      >
+        Thurs
+      </th>
+      <th
+        className={
+          today.getTime() === addDaysToDate(currentMonday, 4).getTime()
+            ? styles.todayHeader
+            : ''
+        }
+      >
+        Fri
+      </th>
+      <th
+        className={
+          today.getTime() === addDaysToDate(currentMonday, 5).getTime()
+            ? styles.todayHeader
+            : ''
+        }
+      >
+        Sat
+      </th>
+      <th
+        className={
+          today.getTime() === addDaysToDate(currentMonday, 6).getTime()
+            ? styles.todayHeader
+            : ''
+        }
+      >
+        Sun
+      </th>
+      <th>Totals</th>
       <tbody>
         {goalDTOs.map((goalDTO: GoalDTO, i: number) => (
           <WeekGoal

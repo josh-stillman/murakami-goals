@@ -15,9 +15,7 @@ export const createWeekEntries = (
 };
 
 export const getMondayOfCurrentWeek = () => {
-  const today = new Date();
-
-  today.setHours(0, 0, 0, 0);
+  const today = getToday();
 
   let dayOfWeek = today.getDay();
 
@@ -39,4 +37,12 @@ export const addDaysToDate = (date: Date, days: number) => {
   new_date.setDate(new_date.getDate() + days);
 
   return new_date;
+};
+
+export const getToday = () => {
+  const today = new Date();
+
+  today.setHours(0, 0, 0, 0);
+
+  return today;
 };

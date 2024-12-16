@@ -11,7 +11,7 @@ export const getHighlightingClass = ({
   nextEntry?: Entry;
   today: Date;
 }) => {
-  if (currentEntry.date.getDate() > today.getDate()) {
+  if (currentEntry.date > today) {
     return '';
   }
 
@@ -19,7 +19,7 @@ export const getHighlightingClass = ({
   const nextDayCompleted = nextEntry ? nextEntry.completed : true; // replace with past week
 
   if (
-    currentEntry.date.getDate() === today.getDate() &&
+    currentEntry.date.getTime() === today.getTime() &&
     !priorDayCompleted &&
     !currentEntry.completed
   ) {
@@ -27,10 +27,10 @@ export const getHighlightingClass = ({
   }
 
   if (
-    currentEntry.date.getDate() !== today.getDate() &&
+    currentEntry.date.getTime() !== today.getTime() &&
     !currentEntry.completed &&
     (!priorDayCompleted ||
-      (!nextDayCompleted && nextEntry?.date.getDate() !== today.getDate()))
+      (!nextDayCompleted && nextEntry?.date.getTime() !== today.getTime()))
   ) {
     return 'violation';
   }

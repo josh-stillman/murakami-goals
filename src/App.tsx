@@ -41,7 +41,12 @@ function App() {
         forward
       </button>
 
-      {goalsDTO && <GoalsTable goalDTOs={goalsDTO.goals} />}
+      {goalsDTO && (
+        <GoalsTable
+          goalDTOs={goalsDTO.goals}
+          currentMonday={goalsDTO.weekStart}
+        />
+      )}
 
       <PWABadge />
     </>
