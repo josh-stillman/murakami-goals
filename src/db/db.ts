@@ -21,6 +21,8 @@ export type WeekEntries = [Entry, Entry, Entry, Entry, Entry, Entry, Entry];
 
 export type GoalDTO = Goal & {
   entries: WeekEntries;
+  nextMonday: Entry | null;
+  priorSunday: Entry | null;
 };
 
 export interface GoalsDTO {
@@ -68,9 +70,37 @@ export const getGoalDTOs = async (mondayOfWeek: Date): Promise<GoalsDTO> => {
         .limit(7)
         .toArray();
 
+      const priorSunday =
+        (
+          await db.entries
+            .where('goalId')
+            .equals(goal.id)
+            .and(
+              entry =>
+                entry.date.getTime() ===
+                addDaysToDate(mondayOfWeek, -1).getTime()
+            )
+            .toArray()
+        )[0] ?? null;
+
+      const nextMonday =
+        (
+          await db.entries
+            .where('goalId')
+            .equals(goal.id)
+            .and(
+              entry =>
+                entry.date.getTime() ===
+                addDaysToDate(mondayOfWeek, 7).getTime()
+            )
+            .toArray()
+        )[0] ?? null;
+
       return {
         ...goal,
         entries: entries as WeekEntries,
+        priorSunday,
+        nextMonday,
       };
     })
   );

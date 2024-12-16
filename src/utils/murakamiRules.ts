@@ -6,17 +6,17 @@ export const getHighlightingClass = ({
   nextEntry,
   today,
 }: {
-  priorEntry?: Entry;
+  priorEntry: Entry | null;
   currentEntry: Entry;
-  nextEntry?: Entry;
+  nextEntry: Entry | null;
   today: Date;
 }) => {
   if (currentEntry.date > today) {
     return '';
   }
 
-  const priorDayCompleted = priorEntry ? priorEntry.completed : true; // replace with past week
-  const nextDayCompleted = nextEntry ? nextEntry.completed : true; // replace with past week
+  const priorDayCompleted = priorEntry ? priorEntry.completed : true;
+  const nextDayCompleted = nextEntry ? nextEntry.completed : true;
 
   if (
     currentEntry.date.getTime() === today.getTime() &&

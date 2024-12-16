@@ -20,8 +20,8 @@ export const WeekGoal = ({ goalDTO, lastRow }: Props) => {
         <EntryCell
           className={`${getHighlightingClass({
             currentEntry: entry,
-            priorEntry: goalDTO.entries[i - 1],
-            nextEntry: goalDTO.entries[i + 1],
+            priorEntry: i === 0 ? goalDTO.priorSunday : goalDTO.entries[i - 1],
+            nextEntry: i === 6 ? goalDTO.nextMonday : goalDTO.entries[i + 1],
             today,
           })} ${entry.date.getTime() === today.getTime() ? 'todayEntry' : ''} ${entry.date.getTime() === today.getTime() && lastRow ? 'todayEntry--last' : ''}  `}
           key={entry.id}
