@@ -39,6 +39,8 @@ db.version(1).stores({
 export const getGoalDTOs = async (): Promise<GoalDTO[]> => {
   const goals = await db.goals.toArray();
 
+  createAllMissingEntries();
+
   const dto = await Promise.all(
     goals.map(async goal => {
       // get entries
@@ -46,9 +48,8 @@ export const getGoalDTOs = async (): Promise<GoalDTO[]> => {
         .where('goalId')
         .equals(goal.id)
         .and(
-          entry => entry.date.getDate() >= getMondayOfCurrentWeek().getDate()
+          entry => entry.date.getTime() >= getMondayOfCurrentWeek().getTime()
         )
-        // .sortBy('date')
         .limit(7)
         .toArray();
 
@@ -87,7 +88,7 @@ const createMissingWeekEntries = async (goal: Goal, monday: Date) => {
   const weekEntries = await db.entries
     .where('goalId')
     .equals(goal.id)
-    .and(entry => entry.date.getDate() >= getMondayOfCurrentWeek().getDate())
+    .and(entry => entry.date.getTime() >= getMondayOfCurrentWeek().getTime())
     .toArray();
 
   if (weekEntries.length < 7) {

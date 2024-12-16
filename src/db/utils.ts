@@ -14,9 +14,7 @@ export const createWeekEntries = (
 export const getMondayOfCurrentWeek = () => {
   const today = new Date();
 
-  today.setHours(0);
-  today.setMinutes(0);
-  today.setSeconds(0);
+  today.setHours(0, 0, 0, 0);
 
   let dayOfWeek = today.getDay();
 
