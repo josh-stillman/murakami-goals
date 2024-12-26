@@ -1,0 +1,16 @@
+.todayEntry {
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+}
+
+.todayEntry--last {
+  border-bottom: 1px solid black;
+}
+
+.atRisk {
+  background-color: lightseagreen;
+}
+
+.violation {
+  background-color: tomato;
+}

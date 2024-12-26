@@ -1,34 +1,53 @@
-import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import appLogo from '/favicon.svg';
 import PWABadge from './PWABadge.tsx';
 import './App.css';
+import { useLiveQuery } from 'dexie-react-hooks';
+import { getGoalDTOs } from './db/db.ts';
+import { GoalsTable } from './components/GoalsTable/GoalsTable.tsx';
+import { useState } from 'react';
+import { getMondayOfCurrentWeek } from './db/utils.ts';
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [currentMonday, setCurrentMonday] = useState(getMondayOfCurrentWeek());
+
+  const goalsDTO = useLiveQuery(
+    () => getGoalDTOs(currentMonday),
+    [currentMonday]
+  );
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-          <img src={appLogo} className="logo" alt="murakami-goals logo" />
-        </a>
-        <a href="https://react.dev" target="_blank" rel="noreferrer">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
       <h1>murakami-goals</h1>
-      <div className="card">
-        <button onClick={() => setCount(count => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <h3>Week of {goalsDTO?.weekStart.toDateString()}</h3>
+
+      <button
+        onClick={() => {
+          if (goalsDTO?.priorWeek) {
+            setCurrentMonday(goalsDTO.priorWeek);
+          }
+        }}
+        disabled={!goalsDTO?.priorWeek}
+      >
+        back
+      </button>
+
+      <button
+        onClick={() => {
+          if (goalsDTO?.nextWeek) {
+            setCurrentMonday(goalsDTO.nextWeek);
+          }
+        }}
+        disabled={!goalsDTO?.nextWeek}
+      >
+        forward
+      </button>
+
+      {goalsDTO && (
+        <GoalsTable
+          goalDTOs={goalsDTO.goals}
+          currentMonday={goalsDTO.weekStart}
+        />
+      )}
+
       <PWABadge />
     </>
   );
