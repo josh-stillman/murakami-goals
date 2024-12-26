@@ -56,6 +56,8 @@ export const getGoalDTOs = async (mondayOfWeek: Date): Promise<GoalsDTO> => {
 
   const goals = await db.goals.toArray();
 
+  await createAllMissingEntries(getMondayOfCurrentWeek());
+
   const dto = await Promise.all(
     goals.map(async goal => {
       // get entries
@@ -136,6 +138,11 @@ export const getGoalDTOs = async (mondayOfWeek: Date): Promise<GoalsDTO> => {
   return goalsDTO;
 };
 
+export const addGoal = async (goalName: string) => {
+  await db.goals.add({ name: goalName });
+  await createAllMissingEntries(getMondayOfCurrentWeek());
+};
+
 // SEED
 
 const seed = async () => {
@@ -181,7 +188,8 @@ const createAllMissingEntries = async (monday: Date) => {
 
 await seed();
 
-await createAllMissingEntries(getMondayOfCurrentWeek());
+// TODO: double check you don't need this line here
+// await createAllMissingEntries(getMondayOfCurrentWeek());
 
 // TODO: remove
 // await createAllMissingEntries(addDaysToDate(getMondayOfCurrentWeek(), -7));

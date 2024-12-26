@@ -5,6 +5,7 @@ import { getGoalDTOs } from './db/db.ts';
 import { GoalsTable } from './components/GoalsTable/GoalsTable.tsx';
 import { useState } from 'react';
 import { getMondayOfCurrentWeek } from './db/utils.ts';
+import { GoalForm } from './components/GoalForm/GoalForm.tsx';
 
 function App() {
   const [currentMonday, setCurrentMonday] = useState(getMondayOfCurrentWeek());
@@ -42,10 +43,13 @@ function App() {
       </button>
 
       {goalsDTO && (
-        <GoalsTable
-          goalDTOs={goalsDTO.goals}
-          currentMonday={goalsDTO.weekStart}
-        />
+        <>
+          <GoalsTable
+            goalDTOs={goalsDTO.goals}
+            currentMonday={goalsDTO.weekStart}
+          />
+          <GoalForm />
+        </>
       )}
 
       <PWABadge />
