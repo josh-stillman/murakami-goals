@@ -130,7 +130,7 @@ export const getGoalDTOs = async (mondayOfWeek: Date): Promise<GoalsDTO> => {
     weekStart: mondayOfWeek,
     priorWeek,
     nextWeek,
-    goals: dto,
+    goals: dto.filter(g => g.entries.length),
   };
 
   console.log({ goalsDTO });
