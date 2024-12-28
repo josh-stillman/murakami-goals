@@ -143,6 +143,11 @@ export const addGoal = async (goalName: string) => {
   await createAllMissingEntries(getMondayOfCurrentWeek());
 };
 
+export const deleteGoal = async (goal: Goal) => {
+  await db.goals.delete(goal.id);
+  await db.entries.where('goalId').equals(goal.id).delete();
+};
+
 // SEED
 
 const seed = async () => {

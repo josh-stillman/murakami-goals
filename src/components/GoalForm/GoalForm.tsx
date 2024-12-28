@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { addGoal, db, Entry, Goal } from '../../db/db';
+import { addGoal, db, deleteGoal, Goal } from '../../db/db';
 
 interface Props {
   goal?: Goal;
@@ -27,17 +27,14 @@ export const GoalForm = ({ goal, className }: Props) => {
     setGoalName(goal?.name || '');
   };
 
-  // const toggleCompleted = async () => {
-  //   try {
-  //     await db.entries.update(entry.id, {
-  //       completed: !entry.completed,
-  //     });
+  const handleDelete = async () => {
+    if (!goal) {
+      return;
+    }
 
-  //     console.log(`status updated for entry ${entry.id}}`);
-  //   } catch (error) {
-  //     console.error(`Failed to update entr y${entry.id}: ${error}`);
-  //   }
-  // };
+    await deleteGoal(goal);
+  };
+
   return (
     <td className={className}>
       {isEditing ? (
@@ -47,9 +44,10 @@ export const GoalForm = ({ goal, className }: Props) => {
             onChange={e => setGoalName(e.target.value)}
           ></input>
           <button type="submit" disabled={goal?.name === goalName || !goalName}>
-            submit
+            {goal ? 'Update Goal Name' : 'Submit'}
           </button>
-          <button onClick={cancelEdit}>cancel</button>
+          <button onClick={cancelEdit}>Cancel</button>
+          {goal && <button onClick={handleDelete}>Delete Goal</button>}
         </form>
       ) : (
         <button onClick={() => setIsEditing(true)}>
