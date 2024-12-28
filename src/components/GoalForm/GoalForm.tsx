@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 import { addGoal, db, deleteGoal, Goal } from '../../db/db';
 
 interface Props {
@@ -12,10 +13,14 @@ export const GoalForm = ({ goal, className }: Props) => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (goal) {
-      await db.goals.update(goal.id, { name: goalName });
-    } else {
-      await addGoal(goalName);
+    try {
+      if (goal) {
+        await db.goals.update(goal.id, { name: goalName });
+      } else {
+        await addGoal(goalName);
+      }
+    } catch (e) {
+      toast.error('Unable to add goal with duplicate name');
     }
 
     setIsEditing(false);

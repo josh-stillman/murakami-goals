@@ -45,7 +45,7 @@ const db = new Dexie('GoalsDatabase') as Dexie & {
 
 // Schema declaration:
 db.version(1).stores({
-  goals: '++id, name', // primary key "id" (for the runtime!)
+  goals: '++id, &name', // primary key "id" (for the runtime!)
   entries: '++id, goalId, date, completed', // primary key "id" (for the runtime!)
 });
 
@@ -139,7 +139,11 @@ export const getGoalDTOs = async (mondayOfWeek: Date): Promise<GoalsDTO> => {
 };
 
 export const addGoal = async (goalName: string) => {
-  await db.goals.add({ name: goalName });
+  try {
+    await db.goals.add({ name: goalName });
+  } catch (e) {
+    throw new Error('Duplicate goal: ' + e);
+  }
   await createAllMissingEntries(getMondayOfCurrentWeek());
 };
 

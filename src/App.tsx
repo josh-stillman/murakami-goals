@@ -1,9 +1,12 @@
+import { useState } from 'react';
+import { useLiveQuery } from 'dexie-react-hooks';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import PWABadge from './PWABadge.tsx';
 import './App.css';
-import { useLiveQuery } from 'dexie-react-hooks';
 import { getGoalDTOs } from './db/db.ts';
 import { GoalsTable } from './components/GoalsTable/GoalsTable.tsx';
-import { useState } from 'react';
 import { getMondayOfCurrentWeek } from './db/utils.ts';
 import { GoalForm } from './components/GoalForm/GoalForm.tsx';
 
@@ -51,6 +54,8 @@ function App() {
           <GoalForm />
         </>
       )}
+
+      <ToastContainer />
 
       <PWABadge />
     </>
