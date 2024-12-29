@@ -45,8 +45,9 @@ const db = new Dexie('GoalsDatabase') as Dexie & {
 
 // Schema declaration:
 db.version(1).stores({
-  goals: '++id, &name', // primary key "id" (for the runtime!)
-  entries: '++id, goalId, date, completed', // primary key "id" (for the runtime!)
+  goals: '++id, &name',
+  entries: '++id, date, [goalId+date], completed',
+  // entries: '++id, goalId, date, [goalId+date], completed', // primary key "id" (for the runtime!)
 });
 
 export const getGoalDTOs = async (mondayOfWeek: Date): Promise<GoalsDTO> => {
@@ -62,41 +63,27 @@ export const getGoalDTOs = async (mondayOfWeek: Date): Promise<GoalsDTO> => {
     goals.map(async goal => {
       // get entries
       const entries = await db.entries
-        .where('goalId')
-        .equals(goal.id)
-        .and(
-          entry =>
-            entry.date.getTime() >= mondayOfWeek.getTime() &&
-            entry.date.getTime() < addDaysToDate(mondayOfWeek, 7).getTime()
+        .where('[goalId+date]')
+        .between(
+          [goal.id, mondayOfWeek],
+          [goal.id, addDaysToDate(mondayOfWeek, 7)],
+          true, // lower inclusive
+          false // upper exclusive
         )
-        .limit(7)
+        .limit(7) // belt and suspenders
         .toArray();
 
       const priorSunday =
-        (
-          await db.entries
-            .where('goalId')
-            .equals(goal.id)
-            .and(
-              entry =>
-                entry.date.getTime() ===
-                addDaysToDate(mondayOfWeek, -1).getTime()
-            )
-            .toArray()
-        )[0] ?? null;
+        (await db.entries
+          .where('[goalId+date]')
+          .equals([goal.id, addDaysToDate(mondayOfWeek, -1)])
+          .first()) || null;
 
       const nextMonday =
-        (
-          await db.entries
-            .where('goalId')
-            .equals(goal.id)
-            .and(
-              entry =>
-                entry.date.getTime() ===
-                addDaysToDate(mondayOfWeek, 7).getTime()
-            )
-            .toArray()
-        )[0] ?? null;
+        (await db.entries
+          .where('[goalId+date]')
+          .equals([goal.id, addDaysToDate(mondayOfWeek, 7)])
+          .first()) || null;
 
       return {
         ...goal,
@@ -112,8 +99,6 @@ export const getGoalDTOs = async (mondayOfWeek: Date): Promise<GoalsDTO> => {
     .below(mondayOfWeek)
     .and(entry => entry.date.getDay() === 1)
     .sortBy('date');
-
-  console.log({ priorWeekArray });
 
   const priorWeek = priorWeekArray[priorWeekArray.length - 1]?.date ?? null;
 
@@ -198,7 +183,7 @@ const createAllMissingEntries = async (monday: Date) => {
 await seed();
 
 // TODO: double check you don't need this line here
-// await createAllMissingEntries(getMondayOfCurrentWeek());
+await createAllMissingEntries(getMondayOfCurrentWeek());
 
 // TODO: remove
 // await createAllMissingEntries(addDaysToDate(getMondayOfCurrentWeek(), -7));
