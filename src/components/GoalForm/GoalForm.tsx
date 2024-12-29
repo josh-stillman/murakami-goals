@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
-import { Goal } from '../../db/db';
 import { GoalService } from '../../db/GoalService';
+import { Goal } from '../../db/types';
 
 interface Props {
   goal?: Goal;

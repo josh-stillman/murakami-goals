@@ -1,4 +1,4 @@
-import type { GoalDTO } from '../../db/dto.d.ts';
+import type { GoalDTO } from '../../db/types';
 import { addDaysToDate, getToday } from '../../db/utils';
 import { WeekGoal } from '../WeekGoal/WeekGoal';
 import styles from './GoalsTable.module.css';

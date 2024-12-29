@@ -1,5 +1,17 @@
-import { Entry, Goal } from './db';
+// Models
+export interface Goal {
+  id: number;
+  name: string;
+}
 
+export interface Entry {
+  id: number;
+  goalId: number;
+  date: Date;
+  completed: boolean;
+}
+
+// DTOs
 export type WeekEntries = [Entry, Entry, Entry, Entry, Entry, Entry, Entry];
 
 export type GoalDTO = Goal & {

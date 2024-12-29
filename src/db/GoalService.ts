@@ -1,5 +1,5 @@
-import { db, Goal, GoalsDB } from './db';
-import type { GoalsDTO, WeekEntries } from './dto.d.ts';
+import { db, GoalsDB } from './db';
+import type { Goal, GoalsDTO, WeekEntries } from './types';
 import {
   addDaysToDate,
   createWeekEntries,
@@ -19,8 +19,6 @@ class GoalServiceSingleton {
     }
 
     const goals = await this.goalsDB.goals.toArray();
-
-    // await this.createAllMissingEntries(getMondayOfCurrentWeek());
 
     const dto = await Promise.all(
       goals.map(async goal => {
@@ -118,8 +116,6 @@ class GoalServiceSingleton {
         false // upper exclusive
       )
       .toArray();
-
-    console.log({ weekEntries });
 
     if (weekEntries.length < 7) {
       const entries = createWeekEntries(monday, goal.id);

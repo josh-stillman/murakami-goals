@@ -1,4 +1,4 @@
-import type { WeekEntries } from './dto.d.ts';
+import type { WeekEntries } from './types';
 
 export const createWeekEntries = (
   monday: Date,

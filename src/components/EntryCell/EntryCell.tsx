@@ -1,5 +1,5 @@
-import { Entry } from '../../db/db';
 import { GoalService } from '../../db/GoalService';
+import { Entry } from '../../db/types';
 
 interface Props {
   entry: Entry;

@@ -1,16 +1,5 @@
 import Dexie, { type EntityTable } from 'dexie';
-
-export interface Goal {
-  id: number;
-  name: string;
-}
-
-export interface Entry {
-  id: number;
-  goalId: number;
-  date: Date;
-  completed: boolean;
-}
+import { Entry, Goal } from './types';
 
 const db = new Dexie('GoalsDatabase') as Dexie & {
   goals: EntityTable<
@@ -29,11 +18,11 @@ export type GoalsDB = typeof db;
 db.version(1).stores({
   goals: '++id, &name',
   entries: '++id, date, [goalId+date], completed',
-  // entries: '++id, goalId, date, [goalId+date], completed', // primary key "id" (for the runtime!)
 });
 
 // SEED
 
+// TODO: remove?
 const seed = async () => {
   const goals = await db.goals.count();
 
