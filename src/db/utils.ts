@@ -1,4 +1,4 @@
-import { WeekEntries } from './db';
+import type { WeekEntries } from './types';
 
 export const createWeekEntries = (
   monday: Date,

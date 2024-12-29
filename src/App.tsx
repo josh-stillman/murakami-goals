@@ -1,16 +1,20 @@
+import { useState } from 'react';
+import { useLiveQuery } from 'dexie-react-hooks';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import PWABadge from './PWABadge.tsx';
 import './App.css';
-import { useLiveQuery } from 'dexie-react-hooks';
-import { getGoalDTOs } from './db/db.ts';
 import { GoalsTable } from './components/GoalsTable/GoalsTable.tsx';
-import { useState } from 'react';
 import { getMondayOfCurrentWeek } from './db/utils.ts';
+import { GoalForm } from './components/GoalForm/GoalForm.tsx';
+import { GoalService } from './db/GoalService.ts';
 
 function App() {
   const [currentMonday, setCurrentMonday] = useState(getMondayOfCurrentWeek());
 
   const goalsDTO = useLiveQuery(
-    () => getGoalDTOs(currentMonday),
+    () => GoalService.getGoalDTO(currentMonday),
     [currentMonday]
   );
 
@@ -42,11 +46,16 @@ function App() {
       </button>
 
       {goalsDTO && (
-        <GoalsTable
-          goalDTOs={goalsDTO.goals}
-          currentMonday={goalsDTO.weekStart}
-        />
+        <>
+          <GoalsTable
+            goalDTOs={goalsDTO.goals}
+            currentMonday={goalsDTO.weekStart}
+          />
+          <GoalForm />
+        </>
       )}
+
+      <ToastContainer />
 
       <PWABadge />
     </>

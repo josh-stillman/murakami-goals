@@ -1,4 +1,5 @@
-import { db, Entry } from '../../db/db';
+import { GoalService } from '../../db/GoalService';
+import { Entry } from '../../db/types';
 
 interface Props {
   entry: Entry;
@@ -9,15 +10,12 @@ interface Props {
 export const EntryCell = ({ entry, className, disabled }: Props) => {
   const toggleCompleted = async () => {
     try {
-      await db.entries.update(entry.id, {
-        completed: !entry.completed,
-      });
-
-      console.log(`status updated for entry ${entry.id}}`);
+      GoalService.updateGoalEntryById(entry.id, !entry.completed);
     } catch (error) {
-      console.error(`Failed to update entr y${entry.id}: ${error}`);
+      console.error(`Failed to update entry ${entry.id}: ${error}`);
     }
   };
+
   return (
     <td className={className}>
       <input

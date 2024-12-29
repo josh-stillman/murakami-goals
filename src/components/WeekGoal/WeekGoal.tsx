@@ -2,6 +2,7 @@ import { GoalDTO } from '../../db/db';
 import { getToday } from '../../db/utils';
 import { getHighlightingClass } from '../../utils/murakamiRules';
 import { EntryCell } from '../EntryCell/EntryCell';
+import { GoalForm } from '../GoalForm/GoalForm';
 import './WeekGoal.css';
 
 interface Props {
@@ -14,7 +15,7 @@ export const WeekGoal = ({ goalDTO, lastRow }: Props) => {
 
   return (
     <tr>
-      <td>{goalDTO.name}</td>
+      <GoalForm goal={goalDTO} />
 
       {goalDTO.entries.map((entry, i) => (
         <EntryCell
