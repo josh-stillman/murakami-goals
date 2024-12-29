@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
-import { addGoal, db, deleteGoal, Goal } from '../../db/db';
+import { Goal } from '../../db/db';
+import { GoalService } from '../../db/GoalService';
 
 interface Props {
   goal?: Goal;
@@ -15,16 +16,16 @@ export const GoalForm = ({ goal, className }: Props) => {
     e.preventDefault();
     try {
       if (goal) {
-        await db.goals.update(goal.id, { name: goalName });
+        await GoalService.updateGoal(goal.id, goalName);
       } else {
-        await addGoal(goalName);
+        await GoalService.addGoal(goalName);
       }
-    } catch (e) {
+    } catch {
       toast.error('Unable to add goal with duplicate name');
     }
 
     setIsEditing(false);
-    setGoalName(goal?.name || '');
+    setGoalName(goalName || '');
   };
 
   const cancelEdit = () => {
@@ -37,21 +38,21 @@ export const GoalForm = ({ goal, className }: Props) => {
       return;
     }
 
-    await deleteGoal(goal);
+    await GoalService.deleteGoal(goal);
   };
 
   return (
     <td className={className}>
       {isEditing ? (
         <form onSubmit={e => handleSubmit(e)}>
-          <input
-            value={goalName}
-            onChange={e => setGoalName(e.target.value)}
-          ></input>
+          <input value={goalName} onChange={e => setGoalName(e.target.value)} />
+
           <button type="submit" disabled={goal?.name === goalName || !goalName}>
             {goal ? 'Update Goal Name' : 'Submit'}
           </button>
+
           <button onClick={cancelEdit}>Cancel</button>
+
           {goal && <button onClick={handleDelete}>Delete Goal</button>}
         </form>
       ) : (

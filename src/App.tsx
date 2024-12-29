@@ -5,16 +5,16 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import PWABadge from './PWABadge.tsx';
 import './App.css';
-import { getGoalDTOs } from './db/db.ts';
 import { GoalsTable } from './components/GoalsTable/GoalsTable.tsx';
 import { getMondayOfCurrentWeek } from './db/utils.ts';
 import { GoalForm } from './components/GoalForm/GoalForm.tsx';
+import { GoalService } from './db/GoalService.ts';
 
 function App() {
   const [currentMonday, setCurrentMonday] = useState(getMondayOfCurrentWeek());
 
   const goalsDTO = useLiveQuery(
-    () => getGoalDTOs(currentMonday),
+    () => GoalService.getGoalDTO(currentMonday),
     [currentMonday]
   );
 
