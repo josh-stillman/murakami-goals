@@ -110,12 +110,12 @@ class GoalServiceSingleton {
 
   public async createMissingWeekEntries(goal: Goal, monday: Date) {
     const weekEntries = await this.goalsDB.entries
-      .where('goalId')
-      .equals(goal.id)
-      .and(
-        entry =>
-          entry.date.getTime() >= monday.getTime() &&
-          entry.date.getTime() < addDaysToDate(monday, 7).getTime()
+      .where('[goalId+date]')
+      .between(
+        [goal.id, monday],
+        [goal.id, addDaysToDate(monday, 7)],
+        true, // lower inclusive
+        false // upper exclusive
       )
       .toArray();
 
