@@ -9,7 +9,6 @@ export default defineConfig({
   },
   plugins: [
     react(),
-
     VitePWA({
       strategies: 'injectManifest',
       srcDir: 'src',
