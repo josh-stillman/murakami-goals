@@ -1,0 +1,11 @@
+.entryCell {
+  width: 50x;
+  height: 50px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.checkbox {
+  width: 75%;
+  height: 75%;
+}

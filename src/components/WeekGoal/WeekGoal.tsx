@@ -1,9 +1,10 @@
-import { GoalDTO } from '../../db/db';
+import { GoalDTO } from '../../db/types';
 import { getToday } from '../../db/utils';
 import { getHighlightingClass } from '../../utils/murakamiRules';
 import { EntryCell } from '../EntryCell/EntryCell';
 import { GoalForm } from '../GoalForm/GoalForm';
-import './WeekGoal.css';
+import styles from './WeekGoal.module.css';
+import tableStyles from '../GoalsTable/GoalsTable.module.css';
 
 interface Props {
   goalDTO: GoalDTO;
@@ -14,8 +15,11 @@ export const WeekGoal = ({ goalDTO, lastRow }: Props) => {
   const today = getToday();
 
   return (
-    <tr>
-      <GoalForm goal={goalDTO} />
+    <div className={styles.weekGoal}>
+      <GoalForm
+        goal={goalDTO}
+        className={`goalName ${tableStyles.stickyColumn}`}
+      />
 
       {goalDTO.entries.map((entry, i) => (
         <EntryCell
@@ -24,14 +28,16 @@ export const WeekGoal = ({ goalDTO, lastRow }: Props) => {
             priorEntry: i === 0 ? goalDTO.priorSunday : goalDTO.entries[i - 1],
             nextEntry: i === 6 ? goalDTO.nextMonday : goalDTO.entries[i + 1],
             today,
-          })} ${entry.date.getTime() === today.getTime() ? 'todayEntry' : ''} ${entry.date.getTime() === today.getTime() && lastRow ? 'todayEntry--last' : ''}  `}
+          })} ${entry.date.getTime() === today.getTime() ? styles.todayEntry : ''} ${entry.date.getTime() === today.getTime() && lastRow ? 'todayEntry--last' : ''}  `}
           key={entry.id}
           entry={entry}
           disabled={entry.date > today}
         />
       ))}
 
-      <td>{goalDTO.entries.filter(e => e.completed).length}</td>
-    </tr>
+      <div className={tableStyles.stickyLastColumn}>
+        {goalDTO.entries.filter(e => e.completed).length}
+      </div>
+    </div>
   );
 };
