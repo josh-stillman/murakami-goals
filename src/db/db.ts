@@ -27,12 +27,8 @@ const seed = async () => {
   const goals = await db.goals.count();
 
   if (!goals) {
-    const goalId = await db.goals.add({
+    await db.goals.add({
       name: 'running',
-    });
-
-    const goalId2 = await db.goals.add({
-      name: 'music',
     });
 
     return;
