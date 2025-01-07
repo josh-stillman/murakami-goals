@@ -1,6 +1,8 @@
 import { GoalService } from '../../db/GoalService';
 import { Entry } from '../../db/types';
 
+import styles from './EntryCell.module.css';
+
 interface Props {
   entry: Entry;
   className: string;
@@ -17,13 +19,14 @@ export const EntryCell = ({ entry, className, disabled }: Props) => {
   };
 
   return (
-    <td className={className}>
+    <div className={className + ' ' + styles.entryCell}>
       <input
         type="checkbox"
+        className={styles.checkbox}
         checked={entry.completed}
         onChange={toggleCompleted}
         disabled={!!disabled}
       />
-    </td>
+    </div>
   );
 };

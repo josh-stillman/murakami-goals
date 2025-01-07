@@ -1,4 +1,6 @@
-import { Entry } from '../db/db';
+import { Entry } from '../db/types';
+
+import styles from '../components/WeekGoal/WeekGoal.module.css';
 
 export const getHighlightingClass = ({
   priorEntry,
@@ -23,7 +25,7 @@ export const getHighlightingClass = ({
     !priorDayCompleted &&
     !currentEntry.completed
   ) {
-    return 'atRisk';
+    return styles.atRisk;
   }
 
   if (
@@ -32,7 +34,7 @@ export const getHighlightingClass = ({
     (!priorDayCompleted ||
       (!nextDayCompleted && nextEntry?.date.getTime() !== today.getTime()))
   ) {
-    return 'violation';
+    return styles.violation;
   }
 
   return '';

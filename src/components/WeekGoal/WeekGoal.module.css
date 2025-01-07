@@ -1,0 +1,20 @@
+.weekGoal {
+  display: contents;
+}
+
+.todayEntry {
+  border-left: 3px solid black;
+  border-right: 3px solid black;
+}
+
+.todayEntry--last {
+  border-bottom: 3px solid black;
+}
+
+.atRisk {
+  background-color: lightseagreen;
+}
+
+.violation {
+  background-color: tomato;
+}

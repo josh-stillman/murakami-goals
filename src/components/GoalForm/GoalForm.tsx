@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { GoalService } from '../../db/GoalService';
 import { Goal } from '../../db/types';
+import styles from './GoalForm.module.css';
 
 interface Props {
   goal?: Goal;
@@ -42,7 +43,7 @@ export const GoalForm = ({ goal, className }: Props) => {
   };
 
   return (
-    <td className={className}>
+    <div className={`${styles.goalForm} ${className}`}>
       {isEditing ? (
         <form onSubmit={e => handleSubmit(e)}>
           <input value={goalName} onChange={e => setGoalName(e.target.value)} />
@@ -60,6 +61,6 @@ export const GoalForm = ({ goal, className }: Props) => {
           {goal?.name || 'Add Goal'}
         </button>
       )}
-    </td>
+    </div>
   );
 };
