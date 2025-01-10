@@ -46,13 +46,15 @@ function App() {
       </button>
 
       {goalsDTO && (
-        <div className="tableWrapper">
-          <GoalsTable
-            goalDTOs={goalsDTO.goals}
-            currentMonday={goalsDTO.weekStart}
-          />
+        <>
+          <div className="tableWrapper">
+            <GoalsTable
+              goalDTOs={goalsDTO.goals}
+              currentMonday={goalsDTO.weekStart}
+            />
+          </div>
           <GoalForm />
-        </div>
+        </>
       )}
 
       <ToastContainer />
