@@ -1,3 +1,7 @@
+import { Checkbox } from 'pretty-checkbox-react';
+import '@djthoms/pretty-checkbox';
+import { Check } from 'react-feather';
+
 import { GoalService } from '../../db/GoalService';
 import { Entry } from '../../db/types';
 
@@ -20,12 +24,14 @@ export const EntryCell = ({ entry, className, disabled }: Props) => {
 
   return (
     <div className={className + ' ' + styles.entryCell}>
-      <input
-        type="checkbox"
-        className={styles.checkbox}
+      <Checkbox
+        style={{ fontSize: '1.7rem' }}
         checked={entry.completed}
         onChange={toggleCompleted}
         disabled={!!disabled}
+        animation="tada"
+        variant="fill"
+        icon={<Check className="svg" data-type="svg" />}
       />
     </div>
   );

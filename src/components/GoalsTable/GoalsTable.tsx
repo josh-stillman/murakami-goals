@@ -16,69 +16,87 @@ export const GoalsTable = ({ goalDTOs, currentMonday }: Props) => {
       <div className={styles.stickyColumn} />
 
       <div
-        className={
-          today.getTime() === currentMonday.getTime() ? styles.todayHeader : ''
-        }
+        className={`
+          ${styles.tableHeader}
+          ${today.getTime() === currentMonday.getTime() ? styles.todayHeader : ''}`}
       >
         Mon
       </div>
 
       <div
-        className={
-          today.getTime() === addDaysToDate(currentMonday, 1).getTime()
-            ? styles.todayHeader
-            : ''
-        }
+        className={`
+          ${styles.tableHeader}
+          ${
+            today.getTime() === addDaysToDate(currentMonday, 1).getTime()
+              ? styles.todayHeader
+              : ''
+          }
+        `}
       >
         Tue
       </div>
 
       <div
-        className={
-          today.getTime() === addDaysToDate(currentMonday, 2).getTime()
-            ? styles.todayHeader
-            : ''
-        }
+        className={`
+          ${styles.tableHeader}
+          ${
+            today.getTime() === addDaysToDate(currentMonday, 2).getTime()
+              ? styles.todayHeader
+              : ''
+          }
+        `}
       >
         Wed
       </div>
 
       <div
-        className={
-          today.getTime() === addDaysToDate(currentMonday, 3).getTime()
-            ? styles.todayHeader
-            : ''
-        }
+        className={`
+          ${styles.tableHeader}
+          ${
+            today.getTime() === addDaysToDate(currentMonday, 3).getTime()
+              ? styles.todayHeader
+              : ''
+          }
+        `}
       >
         Thurs
       </div>
 
       <div
-        className={
-          today.getTime() === addDaysToDate(currentMonday, 4).getTime()
-            ? styles.todayHeader
-            : ''
-        }
+        className={`
+          ${styles.tableHeader}
+          ${
+            today.getTime() === addDaysToDate(currentMonday, 4).getTime()
+              ? styles.todayHeader
+              : ''
+          }
+        `}
       >
         Fri
       </div>
 
       <div
-        className={
-          today.getTime() === addDaysToDate(currentMonday, 5).getTime()
-            ? styles.todayHeader
-            : ''
-        }
+        className={`
+          ${styles.tableHeader}
+          ${
+            today.getTime() === addDaysToDate(currentMonday, 5).getTime()
+              ? styles.todayHeader
+              : ''
+          }
+        `}
       >
         Sat
       </div>
 
       <div
-        className={
-          today.getTime() === addDaysToDate(currentMonday, 6).getTime()
-            ? styles.todayHeader
-            : ''
-        }
+        className={`
+          ${styles.tableHeader}
+          ${
+            today.getTime() === addDaysToDate(currentMonday, 6).getTime()
+              ? styles.todayHeader
+              : ''
+          }
+        `}
       >
         Sun
       </div>
