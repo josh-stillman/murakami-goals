@@ -3,12 +3,12 @@
 }
 
 .todayEntry {
-  border-left: 3px solid black;
-  border-right: 3px solid black;
+  border-left: 3px solid var(--highlight-dark);
+  border-right: 3px solid var(--highlight-dark);
 }
 
 .todayEntry--last {
-  border-bottom: 3px solid black;
+  border-bottom: 3px solid var(--highlight-dark);
 }
 
 .atRisk {
