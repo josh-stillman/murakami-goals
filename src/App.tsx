@@ -4,7 +4,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
-import { Button, Frame, GroupBox, styleReset } from 'react95';
+import { Button } from 'react95';
 
 import original from 'react95/dist/themes/original';
 
