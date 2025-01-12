@@ -97,7 +97,9 @@ export const GoalsTable = ({ goalDTOs, currentMonday }: Props) => {
         Sun
       </div>
 
-      <div className={styles.stickyLastColumn}>Totals</div>
+      <div className={styles.stickyColumn + ' ' + styles['stickyColumn--last']}>
+        Totals
+      </div>
 
       {goalDTOs.map((goalDTO: GoalDTO, i: number) => (
         <WeekGoal

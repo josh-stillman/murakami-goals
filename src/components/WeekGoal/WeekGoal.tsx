@@ -35,7 +35,11 @@ export const WeekGoal = ({ goalDTO, lastRow }: Props) => {
         />
       ))}
 
-      <div className={tableStyles.stickyLastColumn}>
+      <div
+        className={
+          tableStyles.stickyColumn + ' ' + tableStyles['stickyColumn--last']
+        }
+      >
         {goalDTO.entries.filter(e => e.completed).length}
       </div>
     </div>

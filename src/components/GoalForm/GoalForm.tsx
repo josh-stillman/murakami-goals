@@ -3,6 +3,13 @@ import { toast } from 'react-toastify';
 import { GoalService } from '../../db/GoalService';
 import { Goal } from '../../db/types';
 import styles from './GoalForm.module.css';
+import {
+  Button,
+  TextInput,
+  Window,
+  WindowContent,
+  WindowHeader,
+} from 'react95';
 
 interface Props {
   goal?: Goal;
@@ -45,21 +52,34 @@ export const GoalForm = ({ goal, className }: Props) => {
   return (
     <div className={`${styles.goalForm} ${className}`}>
       {isEditing ? (
-        <form onSubmit={e => handleSubmit(e)}>
-          <input value={goalName} onChange={e => setGoalName(e.target.value)} />
+        <Window>
+          <WindowHeader>
+            <span>{goal ? 'Edit' : 'Add'} Goal</span>
+          </WindowHeader>
+          <WindowContent>
+            <form onSubmit={e => handleSubmit(e)}>
+              <TextInput
+                value={goalName}
+                onChange={e => setGoalName(e.target.value)}
+              />
 
-          <button type="submit" disabled={goal?.name === goalName || !goalName}>
-            {goal ? 'Update Goal Name' : 'Submit'}
-          </button>
+              <Button
+                type="submit"
+                disabled={goal?.name === goalName || !goalName}
+              >
+                {goal ? 'Update' : 'Submit'}
+              </Button>
 
-          <button onClick={cancelEdit}>Cancel</button>
+              <Button onClick={cancelEdit}>Cancel</Button>
 
-          {goal && <button onClick={handleDelete}>Delete Goal</button>}
-        </form>
+              {goal && <Button onClick={handleDelete}>Delete</Button>}
+            </form>
+          </WindowContent>
+        </Window>
       ) : (
-        <button onClick={() => setIsEditing(true)}>
+        <Button onClick={() => setIsEditing(true)} fullWidth>
           {goal?.name || 'Add Goal'}
-        </button>
+        </Button>
       )}
     </div>
   );
