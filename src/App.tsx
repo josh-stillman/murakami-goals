@@ -50,7 +50,9 @@ function App() {
     <>
       <GlobalStyles />
       <ThemeProvider theme={original}>
-        <h1>murakami-goals</h1>
+        <h2>
+          Murakami Goals <span>🏃🏻</span>
+        </h2>
         <h3>Week of {goalsDTO?.weekStart.toDateString()}</h3>
 
         <div className="weekNavWrapper">

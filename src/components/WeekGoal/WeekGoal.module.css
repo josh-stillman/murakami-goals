@@ -12,9 +12,9 @@
 }
 
 .atRisk {
-  background-color: lightseagreen;
+  background-color: orange;
 }
 
 .violation {
-  background-color: tomato;
+  background-color: red;
 }
