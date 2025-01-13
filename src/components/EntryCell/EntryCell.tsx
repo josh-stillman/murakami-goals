@@ -1,6 +1,7 @@
 import { Checkbox } from 'pretty-checkbox-react';
 import '@djthoms/pretty-checkbox';
 import { Check } from 'react-feather';
+import { AlertTriangle } from 'react-feather';
 
 import { GoalService } from '../../db/GoalService';
 import { Entry } from '../../db/types';
@@ -11,9 +12,10 @@ interface Props {
   entry: Entry;
   className: string;
   disabled?: boolean;
+  atRisk?: boolean;
 }
 
-export const EntryCell = ({ entry, className, disabled }: Props) => {
+export const EntryCell = ({ entry, className, disabled, atRisk }: Props) => {
   const toggleCompleted = async () => {
     try {
       GoalService.updateGoalEntryById(entry.id, !entry.completed);
@@ -33,6 +35,9 @@ export const EntryCell = ({ entry, className, disabled }: Props) => {
         variant="fill"
         icon={<Check className="svg" data-type="svg" />}
       />
+      {atRisk && (
+        <AlertTriangle className={styles.atRiskIcon} data-type="svg" />
+      )}
     </div>
   );
 };
