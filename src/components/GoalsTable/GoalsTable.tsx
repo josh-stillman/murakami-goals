@@ -29,7 +29,7 @@ export const GoalsTable = ({ goalDTOs, currentMonday }: Props) => {
 
   return (
     <div className={styles.goalTable}>
-      <div className={styles.stickyColumn} />
+      <div className={styles.stickyColumn + ' ' + styles.stickyHeader} />
 
       <div
         className={`
@@ -97,7 +97,15 @@ export const GoalsTable = ({ goalDTOs, currentMonday }: Props) => {
         Sun
       </div>
 
-      <div className={styles.stickyColumn + ' ' + styles['stickyColumn--last']}>
+      <div
+        className={
+          styles.stickyColumn +
+          ' ' +
+          styles.stickyHeader +
+          ' ' +
+          styles['stickyColumn--last']
+        }
+      >
         Totals
       </div>
 
