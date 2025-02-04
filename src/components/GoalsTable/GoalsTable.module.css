@@ -35,10 +35,17 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  box-sizing: border-box;
 }
 
 .stickyColumn--last {
   align-self: end;
   padding-left: 4px;
   right: 0;
+}
+
+.stickyHeader {
+  box-sizing: border-box;
+  border-top: var(--border-size) solid
+    light-dark(var(--background-light), var(--background-color-dark));
 }
